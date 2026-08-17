@@ -1,0 +1,11 @@
+---
+redmine_port: 8080
+
+# Данные вашей облачной базы данных Yandex Cloud
+db_host: "rc1b-vo8g2d7jhhe966i0.mdb.yandexcloud.net"
+db_user: "db_user"
+db_name: "hexlet_db"
+
+# Ссылаемся на защищенные переменные из vault.yml
+db_password: "{{ vault_db_password }}"
+secret_key_base: "{{ vault_secret_key_base }}"

@@ -7,5 +7,45 @@
       - name: docker
 
   roles:
-    - geerlingguy.pip
-    - geerlingguy.docker
+    - { role: geerlingguy.pip, tags: [infra] }
+    - { role: geerlingguy.docker, tags: [infra] }
+
+  tasks:
+    - name: Добавить пользователя в группу docker
+      user:
+        name: alex_2025
+        groups: docker
+        append: yes
+      tags: [deploy]
+
+    - name: Перезапустить сервис docker для применения прав
+      service:
+        name: docker
+        state: restarted
+      tags: [deploy]
+
+    - name: Создать директорию для приложения
+      file:
+        path: /opt/redmine
+        state: directory
+        mode: '0755'
+      tags: [deploy]
+
+    - name: Генерация .env файла из шаблона
+      template:
+        src: templates/.env.j2
+        dest: /opt/redmine/.env
+        mode: '0600'
+      tags: [deploy]
+
+    - name: Запуск Docker-контейнера Redmine
+      community.docker.docker_container:
+        name: redmine-app
+        image: redmine:latest
+        state: started
+        restart_policy: always
+        env_file: /opt/redmine/.env
+        published_ports:
+          - "{{ redmine_port }}:{{ redmine_port }}"
+
+      tags: [deploy]
