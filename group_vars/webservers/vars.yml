@@ -2,7 +2,8 @@
 redmine_port: 8080
 
 # Данные вашей облачной базы данных Yandex Cloud
-db_host: "rc1b-vo8g2d7jhhe966i0.mdb.yandexcloud.net"
+db_host: "rc1b-v3pu4vb298rq7qdb.mdb.yandexcloud.net"
+db_port: 6432
 db_user: "db_user"
 db_name: "hexlet_db"
 
